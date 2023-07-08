@@ -42,8 +42,6 @@
     ],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/prefer-default-export": "off",
-    "import/extensions": ["error", "always"],
-    "no-undef": "error",
     "max-len": [
       "error",
       {
@@ -52,7 +50,11 @@
         "ignoreStrings": true,
         "ignoreTemplateLiterals": true
       }
-    ] // prettier의 printWidth 옵션 대신 사용
+    ], // prettier의 printWidth 옵션 대신 사용
+    "import/extensions": ["error", "always"],
+    "no-undef": "error",
+    "class-methods-use-this": "off",
+    "no-continue": "off"
   },
   "parser": "@babel/eslint-parser"
 }
