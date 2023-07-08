@@ -1,6 +1,13 @@
-class App {
+import Component from '../core/Component.js';
+import Header from './components/Header/index.js';
+
+class App extends Component {
   render() {
-    return `<div>Trello</div>`;
+    const header = new Header();
+
+    return `
+      ${header.render()}
+      `;
   }
 }
 
