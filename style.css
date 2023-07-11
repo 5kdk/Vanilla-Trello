@@ -139,6 +139,10 @@ main {
   cursor: pointer;
 }
 
+.list-title:focus {
+  background-color: #fff;
+}
+
 .card-title {
   font-weight: 400;
   font-size: 14px;
