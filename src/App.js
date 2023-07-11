@@ -1,6 +1,6 @@
 import Component from '../core/Component.js';
-import Header from './components/Header/index.js';
-import Main from './components/Main/index.js';
+import Header from './components/Header.js';
+import Main from './components/Main.js';
 import { getTrelloState } from './state/trelloState.js';
 
 class App extends Component {
