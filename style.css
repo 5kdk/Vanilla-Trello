@@ -1,7 +1,6 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css');
-
 :root {
   --main-text-color: #172b4d;
+  --logo-text-color: #e2e4e6;
   --secondary-text-color: #5e6c84;
   --main-bg-color: #0079bf;
   --secondary-bg-color: #e2e4e6;
@@ -29,10 +28,38 @@ a {
   color: var(--secondary-text-color);
 }
 
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2 {
+  margin: 0;
+  padding: 0;
+}
+
+textarea,
+input[type='text'] {
+  font-family: var(--main-font);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--main-text-color);
+}
+
+button {
+  cursor: pointer;
+}
+
 /* Header component */
 header {
+  position: fixed;
+  top: 0;
   display: flex;
   align-items: center;
+  width: 100vw;
   height: 44px;
   padding: 0 25px;
   background-color: var(--header-bg-color);
@@ -65,4 +92,101 @@ header {
 
 .logo:hover img:last-child {
   display: block;
+}
+
+.logo-subtitle {
+  color: var(--logo-text-color);
+  font-weight: 200;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Main component */
+main {
+  display: flex;
+  padding: 54px 10px 10px 10px;
+}
+
+.lists-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.list {
+  min-width: 280px;
+  height: 100vh;
+}
+
+.list-container {
+  margin: 10px;
+  padding: 10px;
+  background-color: var(--secondary-bg-color);
+  border-radius: 3px;
+}
+
+.list-title {
+  width: 100%;
+  font-weight: 600;
+  background-color: transparent;
+  height: 32px;
+  margin-bottom: 5px;
+  padding: 5px;
+  box-shadow: none;
+  border-radius: 3px;
+  border: none;
+  resize: none;
+  word-wrap: break-word;
+  cursor: pointer;
+}
+
+.card-title {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #091e4240;
+  word-wrap: break-word;
+  cursor: pointer;
+}
+
+.card-composer-opener,
+.list-composer-opener {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+}
+
+.card-composer-opener {
+  padding: 10px;
+  color: var(--secondary-text-color);
+  border-radius: 3px;
+}
+
+.card-composer-opener:hover {
+  background-color: #091e4214;
+}
+
+.list-composer-container {
+  min-width: 280px;
+  margin: 10px;
+}
+
+.list-composer-opener {
+  padding: 10px;
+  color: #fff;
+  font-weight: 400;
+  background-color: #ffffff3d;
+  border-radius: 3px;
+}
+
+.list-composer-opener:hover {
+  background-color: #00000029;
 }
