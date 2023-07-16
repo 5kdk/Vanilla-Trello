@@ -143,11 +143,6 @@ main {
   background-color: #fff;
 }
 
-.card-title {
-  font-weight: 400;
-  font-size: 14px;
-}
-
 .card {
   display: flex;
   justify-content: space-between;
@@ -160,30 +155,35 @@ main {
   cursor: pointer;
 }
 
-.card-composer-opener,
-.list-composer-opener {
+.card-title {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.card-creator-opener,
+.list-creator-opener {
   width: 100%;
   text-align: left;
   border: none;
   background-color: transparent;
 }
 
-.card-composer-opener {
+.card-creator-opener {
   padding: 10px;
   color: var(--secondary-text-color);
   border-radius: 3px;
 }
 
-.card-composer-opener:hover {
+.card-creator-opener:hover {
   background-color: #091e4214;
 }
 
-.list-composer-container {
+.list-creator-container {
   min-width: 280px;
   margin: 10px;
 }
 
-.list-composer-opener {
+.list-creator-opener {
   padding: 10px;
   color: #fff;
   font-weight: 400;
@@ -191,6 +191,20 @@ main {
   border-radius: 3px;
 }
 
-.list-composer-opener:hover {
+.list-creator-opener:hover {
   background-color: #00000029;
+}
+
+.new-card-title,
+.card-desc {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  line-height: 18px;
+  border-radius: 3px;
+  border: none;
+  resize: vertical;
+  overflow-y: auto;
+  overflow-wrap: break-word;
 }
