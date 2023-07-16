@@ -1,5 +1,6 @@
 import eventHolder from './eventHolder.js';
 
+let $root = null;
 let rootComponentInstance = null;
 
 const bindEventHandler = $root => {
@@ -9,12 +10,14 @@ const bindEventHandler = $root => {
 };
 
 const render = (RootComponent, $container) => {
+  if ($container) $root = $container;
   if (RootComponent) rootComponentInstance = new RootComponent();
 
   const domString = rootComponentInstance.render();
-  $container.innerHTML = domString;
 
-  bindEventHandler($container);
+  $root.innerHTML = domString;
+
+  bindEventHandler($root);
 };
 
 export default render;
