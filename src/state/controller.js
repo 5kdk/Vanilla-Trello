@@ -3,6 +3,8 @@ const findAllCards = lists => lists.map(list => list.cards).flat();
 
 const findList = (lists, listId) => lists.find(({ id }) => id === +listId);
 
+const findCard = (lists, cardId) => findAllCards(lists).find(({ id }) => id === +cardId);
+
 const updateListTitle = (lists, listId, title) => lists.map(list => (list.id === +listId ? { ...list, title } : list));
 
 const generateListId = lists => Math.max(...lists.map(list => list.id), 0) + 1;
@@ -27,4 +29,18 @@ const moveList = (lists, fromIndex, toIndex) => {
   return _lists;
 };
 
-export { findList, updateListTitle, appendCard, appendList, moveList };
+const moveCard = (lists, cardId, fromListId, toListId, index) => {
+  const card = findCard(lists, cardId);
+
+  const _list = lists
+    .map(list => (list.id === +fromListId ? { ...list, cards: list.cards.filter(({ id }) => id !== card.id) } : list))
+    .map(list =>
+      list.id === +toListId
+        ? { ...list, cards: [...list.cards.slice(0, index), card, ...list.cards.slice(index)] }
+        : list
+    );
+
+  return _list;
+};
+
+export { findList, updateListTitle, appendCard, appendList, moveList, moveCard };

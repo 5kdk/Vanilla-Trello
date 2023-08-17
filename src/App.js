@@ -1,7 +1,7 @@
 import Component from '../core/Component.js';
 import Header from './components/Header.js';
 import Main from './components/Main.js';
-import { appendCard, appendList, findList, moveList, updateListTitle } from './state/controller.js';
+import { appendCard, appendList, findList, moveCard, moveList, updateListTitle } from './state/controller.js';
 import { getTrelloState, setTrelloState } from './state/trelloState.js';
 
 class App extends Component {
@@ -110,6 +110,10 @@ class App extends Component {
   removeDragImage() {
     const $ghost = document.querySelector('.ghost').parentNode;
     document.body.removeChild($ghost);
+  }
+
+  getCardId($elem) {
+    return +$elem.closest('.card').dataset.cardId;
   }
 
   // Events
@@ -234,6 +238,19 @@ class App extends Component {
         $list.dataset.listIndex = i;
       });
     }
+
+    if (this.$dragTarget.matches('.card')) {
+      const $cardsContainer = $dropzone.querySelector('ul');
+
+      if ($cardsContainer.children.length === 0 || $dropTarget === $dropzone) {
+        $cardsContainer.appendChild(this.$dragTarget);
+        return;
+      }
+
+      if ($dropTarget === this.$dragTarget || !$dropTarget.matches('.card')) return;
+
+      $cardsContainer.insertBefore(this.$dragTarget, $dropTarget);
+    }
   }
 
   onDragend() {
@@ -250,6 +267,22 @@ class App extends Component {
       const lists = moveList(this.state.lists, fromListIndex, toListIndex);
 
       setTimeout(() => this.setState({ lists }));
+    }
+
+    if (this.$dragTarget.matches('.card')) {
+      const [cardId, fromListId, toListId] = [
+        this.getCardId(this.$dragTarget),
+        this.fromListId,
+        this.getListId(this.$dragTarget),
+      ];
+
+      const index = [...this.$dragTarget.parentNode.querySelectorAll('.card')].findIndex(
+        $card => cardId === +$card.dataset.cardId
+      );
+
+      const lists = moveCard(this.state.lists, cardId, fromListId, toListId, index);
+
+      setTimeout(() => this.setState({ lists }), 10);
     }
   }
 }
