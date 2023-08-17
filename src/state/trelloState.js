@@ -30,7 +30,7 @@ const initialState = {
       isOpenCardCreator: false,
     },
   ],
-  isOpenListcreator: false,
+  isOpenListCreator: false,
   modal: {
     isOpen: false,
     isEditDesc: false,
