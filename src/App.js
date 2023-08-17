@@ -34,6 +34,16 @@ class App extends Component {
         handler: this.onDragstart.bind(this),
       },
       {
+        type: 'dragover',
+        selector: null,
+        handler: this.onDragover.bind(this),
+      },
+      {
+        type: 'dragend',
+        selector: null,
+        handler: this.onDragend.bind(this),
+      },
+      {
         type: 'click',
         selector: null,
         handler: this.onClick.bind(this),
@@ -57,23 +67,6 @@ class App extends Component {
   }
 
   // Client Funcs
-  appendDragImage() {
-    const $ghost = document.createElement('div');
-    const $ghostChild = this.$dragTarget.cloneNode(true);
-
-    $ghostChild.classList.add('ghost');
-
-    $ghost.appendChild($ghostChild);
-    document.body.appendChild($ghost);
-
-    return $ghost;
-  }
-
-  // removeDragImage() {
-  //   const $ghost = document.querySelector('.ghost').parentNode;
-  //   document.body.removeChild($ghost);
-  // }
-
   getListIndex($elem) {
     return +$elem.closest('.list').dataset.listIndex;
   }
@@ -94,26 +87,24 @@ class App extends Component {
     this.setState({ isOpenListCreator: !this.state.isOpenListCreator });
   }
 
-  // Events
-  onDragstart(e) {
-    this.$dragTarget = e.target;
-    const $dragImage = this.appendDragImage();
+  appendDragImage() {
+    const $ghost = document.createElement('div');
+    const $ghostChild = this.$dragTarget.cloneNode(true);
 
-    e.dataTransfer.setDragImage($dragImage, e.offsetX * 1.5, e.offsetY * 1.5);
+    $ghostChild.classList.add('ghost');
 
-    e.dataTransfer.effectAllowed = 'move';
+    $ghost.appendChild($ghostChild);
+    document.body.appendChild($ghost);
 
-    this.fromListIndex = this.getListIndex(this.$dragTarget);
-    this.fromListId = this.getListId(this.$dragTarget);
-
-    this.$dragTarget.classList.add('dragging');
+    return $ghost;
   }
 
-  // onDragend() {
-  //   this.$dragTarget.classList.remove('dragging');
-  //   this.removeDragImage();
-  // }
+  removeDragImage() {
+    const $ghost = document.querySelector('.ghost').parentNode;
+    document.body.removeChild($ghost);
+  }
 
+  // Events
   onClick(e) {
     if (e.target.matches('.card-creator-opener') || e.target.matches('.card-creator-closer')) {
       this.toggleCardCreator(this.getListId(e.target));
@@ -196,6 +187,50 @@ class App extends Component {
       const lists = updateListTitle(this.state.lists, listId, newListTitle);
       this.setState({ lists });
     }
+  }
+
+  onDragstart(e) {
+    this.$dragTarget = e.target;
+    const $dragImage = this.appendDragImage();
+
+    e.dataTransfer.setDragImage($dragImage, e.offsetX * 1.5, e.offsetY * 1.5);
+
+    e.dataTransfer.effectAllowed = 'move';
+
+    this.fromListIndex = this.getListIndex(this.$dragTarget);
+    this.fromListId = this.getListId(this.$dragTarget);
+
+    this.$dragTarget.classList.add('dragging');
+  }
+
+  onDragover(e) {
+    const $dropTarget = e.target;
+    const $dropzone = $dropTarget.closest('.list');
+
+    e.preventDefault();
+
+    if ($dropzone === null) return;
+
+    if (this.$dragTarget.matches('.list')) {
+      if ($dropzone === this.$dragTarget) return;
+
+      const [fromListIndex, toListIndex] = [this.getListIndex(this.$dragTarget), this.getListIndex($dropzone)];
+
+      this.$dragTarget.parentNode.insertBefore(
+        this.$dragTarget,
+
+        fromListIndex > toListIndex ? $dropzone : $dropzone.nextElementSibling
+      );
+
+      [...document.querySelectorAll('.list')].forEach(($list, i) => {
+        $list.dataset.listIndex = i;
+      });
+    }
+  }
+
+  onDragend() {
+    this.$dragTarget.classList.remove('dragging');
+    this.removeDragImage();
   }
 }
 
