@@ -20,4 +20,11 @@ const appendList = (lists, title) => {
   return [...lists, { id, title, cards: [] }];
 };
 
-export { findList, updateListTitle, appendCard, appendList };
+const moveList = (lists, fromIndex, toIndex) => {
+  const _lists = [...lists].filter((_, i) => i !== fromIndex);
+  _lists.splice(toIndex, 0, lists[fromIndex]);
+
+  return _lists;
+};
+
+export { findList, updateListTitle, appendCard, appendList, moveList };

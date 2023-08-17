@@ -1,7 +1,7 @@
 import Component from '../core/Component.js';
 import Header from './components/Header.js';
 import Main from './components/Main.js';
-import { appendCard, appendList, findList, updateListTitle } from './state/controller.js';
+import { appendCard, appendList, findList, moveList, updateListTitle } from './state/controller.js';
 import { getTrelloState, setTrelloState } from './state/trelloState.js';
 
 class App extends Component {
@@ -45,6 +45,11 @@ class App extends Component {
         type: 'dragend',
         selector: null,
         handler: this.onDragend.bind(this),
+      },
+      {
+        type: 'drop',
+        selector: null,
+        handler: this.onDrop.bind(this),
       },
       {
         type: 'click',
@@ -234,6 +239,18 @@ class App extends Component {
   onDragend() {
     this.$dragTarget.classList.remove('dragging');
     this.removeDragImage();
+  }
+
+  onDrop() {
+    if (this.$dragTarget.matches('.list')) {
+      const [fromListIndex, toListIndex] = [this.fromListIndex, this.getListIndex(this.$dragTarget)];
+
+      if (fromListIndex === toListIndex) return;
+
+      const lists = moveList(this.state.lists, fromListIndex, toListIndex);
+
+      setTimeout(() => this.setState({ lists }));
+    }
   }
 }
 
