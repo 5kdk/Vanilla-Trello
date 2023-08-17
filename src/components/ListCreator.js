@@ -7,7 +7,7 @@ class ListCreator extends Component {
     // prettier-ignore
     return isOpenListCreator ? `
       <form class="creator list-creator">
-        <textarea class="new-list-title" placeholder="Enter list title..." autofocus></textarea>
+        <textarea class="new-list-title" placeholder="Enter list title..." spellcheck="false" autofocus></textarea>
         <div class="creator-controller">
           <button class="btn">Add list</button>
           <a class="bx bx-x bx-md list-creator-closer"></a>
