@@ -1,7 +1,16 @@
 import Component from '../core/Component.js';
 import Header from './components/Header.js';
 import Main from './components/Main.js';
-import { appendCard, appendList, findList, moveCard, moveList, updateListTitle } from './state/controller.js';
+import {
+  appendCard,
+  appendList,
+  findList,
+  moveCard,
+  moveList,
+  removeCard,
+  removeList,
+  updateListTitle,
+} from './state/controller.js';
 import { getTrelloState, setTrelloState } from './state/trelloState.js';
 
 class App extends Component {
@@ -217,7 +226,7 @@ class App extends Component {
 
   onDragover(e) {
     const $dropTarget = e.target;
-    const $dropzone = $dropTarget.closest('.list');
+    const $dropzone = $dropTarget.closest('.list' || '.trash');
 
     e.preventDefault();
 
@@ -258,7 +267,22 @@ class App extends Component {
     this.removeDragImage();
   }
 
-  onDrop() {
+  onDrop(e) {
+    if (e.target.closest('.trash')) {
+      if (this.$dragTarget.matches('.list')) {
+        const lists = removeList(this.state.lists, this.fromListId);
+
+        setTimeout(() => this.setState({ lists }));
+        return;
+      }
+      if (this.$dragTarget.matches('.card')) {
+        const lists = removeCard(this.state.lists, this.fromListId, this.$dragTarget.dataset.cardId);
+
+        setTimeout(() => this.setState({ lists }));
+        return;
+      }
+    }
+
     if (this.$dragTarget.matches('.list')) {
       const [fromListIndex, toListIndex] = [this.fromListIndex, this.getListIndex(this.$dragTarget)];
 

@@ -43,4 +43,17 @@ const moveCard = (lists, cardId, fromListId, toListId, index) => {
   return _list;
 };
 
-export { findList, updateListTitle, appendCard, appendList, moveList, moveCard };
+const removeList = (lists, listId) => {
+  const _lists = lists.filter(list => list.id !== +listId);
+  return _lists;
+};
+
+const removeCard = (lists, listId, cardId) => {
+  const _lists = lists.map(list =>
+    list.id === +listId ? { ...list, cards: list.cards.filter(card => card.id !== +cardId) } : list
+  );
+
+  return _lists;
+};
+
+export { findList, updateListTitle, appendCard, appendList, moveList, moveCard, removeList, removeCard };

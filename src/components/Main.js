@@ -1,6 +1,7 @@
 import Component from '../../core/Component.js';
 import List from './List.js';
 import ListCreator from './ListCreator.js';
+import TrashCan from './TrashCan.js';
 
 class Main extends Component {
   render() {
@@ -13,6 +14,7 @@ class Main extends Component {
         ${lists.map((list, i) => `${new List({ list, i }).render()}`).join('')}
         </div>
         <div class="list-creator-container">${new ListCreator({ isOpenListCreator }).render()}</div>
+        <div class="trash-can-container">${new TrashCan().render()}</div>
       </main>`;
   }
 }
