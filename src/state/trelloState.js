@@ -6,7 +6,7 @@ const initialState = {
   lists: [
     {
       id: 1,
-      title: '해야할 일을 작성해보세요.',
+      title: '진행중인 목록과 작업을 이동해보세요!',
       cards: [
         { id: 1, title: 'React', description: 'my task' },
         { id: 2, title: 'TypeScript', description: '' },
@@ -15,13 +15,13 @@ const initialState = {
     },
     {
       id: 2,
-      title: '진행중인 작업을 이동해보세요.',
+      title: '새로운 목록과 작업을 추가해보세요!',
       cards: [{ id: 3, title: 'Algorithm', description: '' }],
       isOpenCardCreator: false,
     },
     {
       id: 3,
-      title: '구체적인 작업 내용을 작성해보세요.',
+      title: '새로운 기능도 곧 추가됩니다!',
       cards: [
         { id: 4, title: 'HTML', description: '' },
         { id: 5, title: 'CSS', description: '' },
