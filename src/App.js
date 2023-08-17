@@ -1,7 +1,7 @@
 import Component from '../core/Component.js';
 import Header from './components/Header.js';
 import Main from './components/Main.js';
-import { appendCard } from './state/controller.js';
+import { appendCard, appendList } from './state/controller.js';
 import { getTrelloState, setTrelloState } from './state/trelloState.js';
 
 class App extends Component {
@@ -29,6 +29,11 @@ class App extends Component {
         handler: () => setTrelloState(this.state),
       },
       {
+        type: 'keydown',
+        selector: null,
+        handler: this.onKeydown.bind(this),
+      },
+      {
         type: 'click',
         selector: null,
         handler: this.onClick.bind(this),
@@ -41,6 +46,7 @@ class App extends Component {
     ];
   }
 
+  // Client handlers
   getListId($elem) {
     return +$elem.closest('.list').dataset.listId;
   }
@@ -57,6 +63,7 @@ class App extends Component {
     this.setState({ isOpenListCreator: !this.state.isOpenListCreator });
   }
 
+  // Events
   onClick(e) {
     if (e.target.matches('.card-creator-opener') || e.target.matches('.card-creator-closer')) {
       this.toggleCardCreator(this.getListId(e.target));
@@ -82,6 +89,40 @@ class App extends Component {
       $textarea.value = '';
 
       this.setState({ lists });
+      return;
+    }
+
+    if (e.target.matches('.list-creator')) {
+      if (value === '') return;
+
+      const lists = appendList(this.state.lists, value);
+
+      $textarea.value = '';
+
+      this.setState({ lists });
+    }
+  }
+
+  onKeydown(e) {
+    if (e.key !== 'Escape' && e.key !== 'Enter') return;
+
+    if (e.key === 'Escape') {
+      if (e.target.matches('.new-card-title')) {
+        this.toggleCardCreator(this.getListId(e.target));
+        return;
+      }
+
+      if (e.target.matches('.new-list-title')) {
+        this.toggleListCreator();
+      }
+    }
+
+    if (e.key === 'Enter') {
+      const value = e.target.value.trim();
+
+      if (e.target.matches('.new-card-title') || e.target.matches('.new-list-title')) {
+        if (value !== '') e.target.closest('form').querySelector('button').click();
+      }
     }
   }
 }
