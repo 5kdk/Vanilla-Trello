@@ -53,9 +53,18 @@ class App extends Component {
     this.setState({ lists });
   }
 
+  toggleListCreator() {
+    this.setState({ isOpenListCreator: !this.state.isOpenListCreator });
+  }
+
   onClick(e) {
     if (e.target.matches('.card-creator-opener') || e.target.matches('.card-creator-closer')) {
       this.toggleCardCreator(this.getListId(e.target));
+      return;
+    }
+
+    if (e.target.matches('.list-creator-opener') || e.target.matches('.list-creator-closer')) {
+      this.toggleListCreator();
     }
   }
 
