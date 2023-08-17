@@ -39,7 +39,7 @@ class App extends Component {
       {
         type: 'dragover',
         selector: null,
-        handler: this.onDragover.bind(this),
+        handler: _.throttle(this.onDragover.bind(this)),
       },
       {
         type: 'dragend',
