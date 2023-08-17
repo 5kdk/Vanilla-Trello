@@ -9,6 +9,9 @@ class App extends Component {
     super();
 
     this.state = getTrelloState();
+    this.$dragTarget = null;
+    this.fromListId = null;
+    this.fromListIndex = null;
   }
 
   render() {
