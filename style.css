@@ -259,8 +259,8 @@ main {
 
 .trash-can-container {
   position: fixed;
-  width: 50px;
-  height: 50px;
+  width: 36px;
+  height: 36px;
   right: 20px;
   bottom: 44px;
 }
@@ -278,6 +278,6 @@ main {
 }
 
 .trash > i {
-  font-size: 20px;
+  font-size: 18px;
   color: #fff;
 }
