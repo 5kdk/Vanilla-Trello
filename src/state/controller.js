@@ -1,5 +1,9 @@
-// Data handlers
+// Data controll Funcs
 const findAllCards = lists => lists.map(list => list.cards).flat();
+
+const findList = (lists, listId) => lists.find(({ id }) => id === +listId);
+
+const updateListTitle = (lists, listId, title) => lists.map(list => (list.id === +listId ? { ...list, title } : list));
 
 const generateListId = lists => Math.max(...lists.map(list => list.id), 0) + 1;
 
@@ -16,4 +20,4 @@ const appendList = (lists, title) => {
   return [...lists, { id, title, cards: [] }];
 };
 
-export { appendCard, appendList };
+export { findList, updateListTitle, appendCard, appendList };

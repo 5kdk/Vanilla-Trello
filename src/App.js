@@ -1,7 +1,7 @@
 import Component from '../core/Component.js';
 import Header from './components/Header.js';
 import Main from './components/Main.js';
-import { appendCard, appendList } from './state/controller.js';
+import { appendCard, appendList, findList, updateListTitle } from './state/controller.js';
 import { getTrelloState, setTrelloState } from './state/trelloState.js';
 
 class App extends Component {
@@ -29,11 +29,6 @@ class App extends Component {
         handler: () => setTrelloState(this.state),
       },
       {
-        type: 'keydown',
-        selector: null,
-        handler: this.onKeydown.bind(this),
-      },
-      {
         type: 'click',
         selector: null,
         handler: this.onClick.bind(this),
@@ -43,10 +38,20 @@ class App extends Component {
         selector: null,
         handler: this.onSubmit.bind(this),
       },
+      {
+        type: 'keydown',
+        selector: null,
+        handler: this.onKeydown.bind(this),
+      },
+      {
+        type: 'focusout',
+        selector: null,
+        handler: this.onFocusout.bind(this),
+      },
     ];
   }
 
-  // Client handlers
+  // Client Funcs
   getListId($elem) {
     return +$elem.closest('.list').dataset.listId;
   }
@@ -118,11 +123,33 @@ class App extends Component {
     }
 
     if (e.key === 'Enter') {
+      e.preventDefault();
+
       const value = e.target.value.trim();
 
       if (e.target.matches('.new-card-title') || e.target.matches('.new-list-title')) {
         if (value !== '') e.target.closest('form').querySelector('button').click();
       }
+
+      e.target.blur();
+    }
+  }
+
+  onFocusout(e) {
+    if (!e.target.matches('.list-title')) return;
+
+    const listId = this.getListId(e.target);
+    const prevListTitle = findList(this.state.lists, listId).title;
+    const newListTitle = e.target.value.trim();
+
+    if (newListTitle === '') {
+      e.target.value = prevListTitle;
+      return;
+    }
+
+    if (prevListTitle !== newListTitle) {
+      const lists = updateListTitle(this.state.lists, listId, newListTitle);
+      this.setState({ lists });
     }
   }
 }
