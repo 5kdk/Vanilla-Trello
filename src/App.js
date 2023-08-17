@@ -29,6 +29,11 @@ class App extends Component {
         handler: () => setTrelloState(this.state),
       },
       {
+        type: 'dragstart',
+        selector: null,
+        handler: this.onDragstart.bind(this),
+      },
+      {
         type: 'click',
         selector: null,
         handler: this.onClick.bind(this),
@@ -52,6 +57,27 @@ class App extends Component {
   }
 
   // Client Funcs
+  appendDragImage() {
+    const $ghost = document.createElement('div');
+    const $ghostChild = this.$dragTarget.cloneNode(true);
+
+    $ghostChild.classList.add('ghost');
+
+    $ghost.appendChild($ghostChild);
+    document.body.appendChild($ghost);
+
+    return $ghost;
+  }
+
+  // removeDragImage() {
+  //   const $ghost = document.querySelector('.ghost').parentNode;
+  //   document.body.removeChild($ghost);
+  // }
+
+  getListIndex($elem) {
+    return +$elem.closest('.list').dataset.listIndex;
+  }
+
   getListId($elem) {
     return +$elem.closest('.list').dataset.listId;
   }
@@ -69,6 +95,25 @@ class App extends Component {
   }
 
   // Events
+  onDragstart(e) {
+    this.$dragTarget = e.target;
+    const $dragImage = this.appendDragImage();
+
+    e.dataTransfer.setDragImage($dragImage, e.offsetX * 1.5, e.offsetY * 1.5);
+
+    e.dataTransfer.effectAllowed = 'move';
+
+    this.fromListIndex = this.getListIndex(this.$dragTarget);
+    this.fromListId = this.getListId(this.$dragTarget);
+
+    this.$dragTarget.classList.add('dragging');
+  }
+
+  // onDragend() {
+  //   this.$dragTarget.classList.remove('dragging');
+  //   this.removeDragImage();
+  // }
+
   onClick(e) {
     if (e.target.matches('.card-creator-opener') || e.target.matches('.card-creator-closer')) {
       this.toggleCardCreator(this.getListId(e.target));

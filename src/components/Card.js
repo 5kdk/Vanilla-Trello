@@ -5,7 +5,7 @@ class Card extends Component {
     const { id, title } = this.props;
 
     return `
-      <li data-card-id="${id}" class="card">
+      <li data-card-id="${id}" class="card" draggable="true">
         <h2 class="card-title">${title}</h2>
       </li>`;
   }

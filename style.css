@@ -243,3 +243,16 @@ main {
   overflow-y: auto;
   overflow-wrap: break-word;
 }
+
+.ghost {
+  position: absolute;
+  width: 280px;
+  left: -1000px;
+  transform: rotate(3deg);
+}
+
+.dragging,
+.dragging * {
+  opacity: 0.3;
+  color: transparent;
+}

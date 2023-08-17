@@ -8,13 +8,13 @@ class List extends Component {
 
     // prettier-ignore
     return `
-      <div class="list" data-list-id="${id}">
+      <div class="list" data-list-index="${i}" data-list-id="${id}" draggable="true">
         <div class="list-container">
           <textarea class="list-title">${title}</textarea>
-          <ul data-list-index="${i}" data-list-id="${id}">
+          <ul>
             ${cards.map(card => `${new Card(card).render()}`).join('')}
           </ul>
-          ${isOpenCardCreator ? `
+          ${ isOpenCardCreator ? `
           <form class="card-creator">
             <textarea class="new-card-title" placeholder="Enter a title for this card..." autofocus></textarea>
             <div class="creator-controller">
