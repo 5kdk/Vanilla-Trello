@@ -1,4 +1,4 @@
-# 🍌Vanilla Trello
+# 🍦 Vanilla Trello
 
 ### 개요
 
@@ -13,11 +13,11 @@ CBD를 기반으로한 SPA라이브러리를 모방하여 [Trello](https://trell
 
 ### 프로젝트 기간
 
-- 진행중
+- 2023.07 - 진행중
 
 ### 배포링크
 
-[깃허브페이지 정적 배포 예정]()
+[배포페이지](https://5kdk.github.io/Vanilla-Trello/)
 
 ### 주요 개발사항
 
@@ -28,7 +28,3 @@ CBD를 기반으로한 SPA라이브러리를 모방하여 [Trello](https://trell
 - diff 알고리즘([Reconciliation](https://ko.legacy.reactjs.org/docs/reconciliation.html)) 구현
 - 다중 컴포넌트 지원
 - Trello 서비스 구현
-
-### 개발 이슈
-
-- Issue
