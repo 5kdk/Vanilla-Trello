@@ -1,3 +1,4 @@
+import applyDiff from './applyDiff.js';
 import eventHolder from './eventHolder.js';
 
 let $root = null;
@@ -13,10 +14,12 @@ const render = (RootComponent, $container) => {
   if ($container) $root = $container;
   if (RootComponent) rootComponentInstance = new RootComponent();
 
+  const $virtual = $root.cloneNode();
   const domString = rootComponentInstance.render();
 
-  $root.innerHTML = domString;
+  $virtual.innerHTML = domString;
 
+  applyDiff($root, [...$root.childNodes], [...$virtual.childNodes]);
   bindEventHandler($root);
 };
 
