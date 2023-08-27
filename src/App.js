@@ -27,8 +27,6 @@ class App extends Component {
     const header = new Header();
     const main = new Main(this.state);
 
-    console.log('dragTarget', this.$dragTarget);
-
     return `
       ${header.render()}
       ${main.render()}
