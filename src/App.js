@@ -27,6 +27,8 @@ class App extends Component {
     const header = new Header();
     const main = new Main(this.state);
 
+    console.log('dragTarget', this.$dragTarget);
+
     return `
       ${header.render()}
       ${main.render()}
@@ -212,6 +214,7 @@ class App extends Component {
 
   onDragstart(e) {
     this.$dragTarget = e.target;
+
     const $dragImage = this.appendDragImage();
 
     e.dataTransfer.setDragImage($dragImage, e.offsetX * 1.5, e.offsetY * 1.5);
@@ -278,7 +281,7 @@ class App extends Component {
       if (this.$dragTarget.matches('.card')) {
         const lists = removeCard(this.state.lists, this.fromListId, this.$dragTarget.dataset.cardId);
 
-        setTimeout(() => this.setState({ lists }));
+        setTimeout(() => this.setState({ lists }), 10);
         return;
       }
     }
