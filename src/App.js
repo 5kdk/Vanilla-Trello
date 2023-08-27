@@ -273,7 +273,7 @@ class App extends Component {
       if (this.$dragTarget.matches('.list')) {
         const lists = removeList(this.state.lists, this.fromListId);
 
-        setTimeout(() => this.setState({ lists }));
+        setTimeout(() => this.setState({ lists }), 10);
         return;
       }
       if (this.$dragTarget.matches('.card')) {
@@ -291,7 +291,7 @@ class App extends Component {
 
       const lists = moveList(this.state.lists, fromListIndex, toListIndex);
 
-      setTimeout(() => this.setState({ lists }));
+      setTimeout(() => this.setState({ lists }), 10);
     }
 
     if (this.$dragTarget.matches('.card')) {
