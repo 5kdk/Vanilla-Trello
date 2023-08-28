@@ -1,56 +1,61 @@
-const applyDiff = (parent, realNode, virtualNode) => {
-  const updateAttributes = (realNode, virtualNode) => {
-    for (const { name, value } of [...virtualNode.attributes]) {
-      if (value !== realNode.getAttribute(name)) realNode.setAttribute(name, value);
+const updateAttributes = (realNode, virtualNode) => {
+  for (const { name, value } of [...virtualNode.attributes]) {
+    if (!realNode.hasAttribute(name) || realNode.getAttribute(name) !== value) {
+      realNode.setAttribute(name, value);
     }
+  }
 
-    for (const { name } of [...realNode.attributes]) {
-      if (virtualNode.getAttribute(name) === undefined) realNode.removeAttribute(name);
-    }
-  };
+  for (const { name } of [...realNode.attributes]) {
+    if (!virtualNode.hasAttribute(name)) realNode.removeAttribute(name);
+  }
+};
 
-  const updateDOM = (parent, virtualNode, realNode) => {
-    if (!virtualNode && realNode) return realNode.remove();
+const updateDOM = (parentNode, realNode, virtualNode) => {
+  if (virtualNode && !realNode) {
+    parentNode.appendChild(virtualNode);
+    return;
+  }
 
-    if (virtualNode && !realNode) return parent.appendChild(virtualNode);
+  if (!virtualNode && realNode) {
+    realNode.removeChild(realNode);
+    return;
+  }
 
-    if (virtualNode instanceof Text && realNode instanceof Text) {
-      if (realNode.nodeValue === virtualNode.nodeValue) return;
+  if (realNode.nodeType === Node.TEXT_NODE && virtualNode.nodeType === Node.TEXT_NODE) {
+    if (realNode.textContent !== virtualNode.textContent) realNode.textContent = virtualNode.textContent;
+    return;
+  }
 
-      realNode.nodeValue = virtualNode.nodeValue;
-      return;
-    }
+  if (realNode.nodeType === Node.COMMENT_NODE || virtualNode.nodeType === Node.COMMENT_NODE) return;
 
-    if (virtualNode.nodeName !== realNode.nodeName) {
-      const index = [...parent.childNodes].indexOf(realNode);
+  if (realNode.nodeName !== virtualNode.nodeName) {
+    parentNode.insertBefore(virtualNode, realNode);
+    parentNode.removeChild(realNode);
+    return;
+  }
 
-      realNode.remove();
-      parent.appendChild(virtualNode, index);
+  if (virtualNode.nodeName !== realNode.nodeName) {
+    const index = [...parentNode.childNodes].indexOf(realNode);
 
-      return;
-    }
+    realNode.remove();
+    parentNode.appendChild(virtualNode, index);
 
-    updateAttributes(realNode, virtualNode);
+    return;
+  }
 
-    const newChildNodes = [...virtualNode.childNodes];
-    const oldChildNodes = [...realNode.childNodes];
+  updateAttributes(realNode, virtualNode);
 
-    const maxLength = Math.max(newChildNodes.length, oldChildNodes.length);
+  // eslint-disable-next-line no-use-before-define
+  applyDiff(realNode, virtualNode);
+};
 
-    for (let i = 0; i < maxLength; i++) {
-      updateDOM(realNode, newChildNodes[i], oldChildNodes[i]);
-    }
-  };
+const applyDiff = (realDOM, virtualDOM) => {
+  const [realNodes, virtualNodes] = [[...realDOM.childNodes], [...virtualDOM.childNodes]];
+  const max = Math.max(realNodes.length, virtualNodes.length);
 
-  const diffRender = () => {
-    const maxLength = Math.max(virtualNode.length, realNode.length);
-
-    for (let i = 0; i < maxLength; i++) {
-      updateDOM(parent, virtualNode[i], realNode[i]);
-    }
-  };
-
-  diffRender();
+  for (let i = 0; i < max; i++) {
+    updateDOM(realDOM, realNodes[i], virtualNodes[i]);
+  }
 };
 
 export default applyDiff;

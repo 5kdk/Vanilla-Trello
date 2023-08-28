@@ -16,10 +16,10 @@ const render = (RootComponent, $container) => {
 
   const $virtual = $root.cloneNode();
   const domString = rootComponentInstance.render();
-
   $virtual.innerHTML = domString;
 
-  applyDiff($root, [...$root.childNodes], [...$virtual.childNodes]);
+  applyDiff($root, $virtual);
+
   bindEventHandler($root);
 };
 
