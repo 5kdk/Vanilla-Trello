@@ -17,7 +17,7 @@ const updateDOM = (parentNode, realNode, virtualNode) => {
   }
 
   if (!virtualNode && realNode) {
-    realNode.removeChild(realNode);
+    parentNode.removeChild(realNode);
     return;
   }
 
